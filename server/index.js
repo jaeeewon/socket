@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -24,9 +24,10 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
+    console.log(`${data.client ? '"client"' : '"server"'}: ${data.message}`)
   });
 });
 
-server.listen(3001, () => {
+server.listen(3030, () => {
   console.log("SERVER IS RUNNING");
 });
